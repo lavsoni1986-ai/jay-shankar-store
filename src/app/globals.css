@@ -1,26 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+@theme {
+  /* Brand Colors */
+  --color-primary: #0f2a5c;
+  --color-primary-dark: #081a3e;
+  --color-primary-light: #1a3d7a;
+  --color-accent: #0ea5e9;
+  --color-accent-dark: #0284c7;
+  --color-accent-light: #38bdf8;
+  --color-surface: #f8fafc;
+  --color-surface-dark: #f1f5f9;
+  --color-border: #e2e8f0;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-text-light: #94a3b8;
+
+  /* Typography */
+  --font-sans: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
+  --font-display: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --shadow-card-hover: 0 4px 12px 0 rgb(15 42 92 / 0.12), 0 2px 4px -1px rgb(15 42 92 / 0.08);
+  --shadow-header: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  --shadow-cta: 0 4px 20px 0 rgb(14 165 233 / 0.3);
+
+  /* Border Radius */
+  --radius-card: 0.75rem;
+  --radius-btn: 0.5rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Base Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hindi / Devanagari text rendering */
+.text-hindi,
+[lang="hi"] {
+  font-family: "Noto Sans Devanagari", "Inter", system-ui, sans-serif;
+  font-feature-settings: normal;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 3px;
+}
+
+/* Selection */
+::selection {
+  background-color: rgb(14 165 233 / 0.2);
+  color: var(--color-primary);
+}
+
+/* Utility: Smooth transition base */
+.transition-base {
+  transition: all 0.2s ease;
+}
+
+/* WhatsApp Green */
+.bg-whatsapp {
+  background-color: #25d366;
+}
+.hover\:bg-whatsapp-dark:hover {
+  background-color: #128c7e;
+}
+.text-whatsapp {
+  color: #25d366;
 }

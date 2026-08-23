@@ -1,0 +1,130 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Menu, MessageCircle } from "lucide-react";
+import { navItems, siteConfig } from "@/data/siteConfig";
+import { getGeneralEnquiryUrl } from "@/lib/whatsapp";
+import { MobileNav } from "./MobileNav";
+
+export function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Prevent body scroll when mobile nav is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  return (
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-white shadow-[0_1px_8px_rgba(15,42,92,0.12)]"
+            : "bg-white border-b border-slate-100"
+        }`}
+        role="banner"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 lg:h-18">
+            {/* Logo */}
+            <Link
+              href="/"
+              className="flex flex-col leading-tight group"
+              aria-label="Jay Shankar Readymade Store — Home"
+            >
+              <span className="text-lg font-bold text-[#0F2A5C] group-hover:text-[#0EA5E9] transition-colors tracking-tight">
+                Jay Shankar
+              </span>
+              <span className="text-xs font-medium text-[#0EA5E9] tracking-wide uppercase">
+                Readymade Store
+              </span>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <nav
+              className="hidden lg:flex items-center gap-1"
+              role="navigation"
+              aria-label="Main navigation"
+            >
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="px-3 py-2 text-sm font-medium text-slate-700 hover:text-[#0F2A5C] hover:bg-slate-50 rounded-md transition-colors"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Desktop CTA */}
+            <div className="hidden lg:flex items-center gap-3">
+              <a
+                href={getGeneralEnquiryUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 bg-[#25D366] hover:bg-[#128C7E] text-white text-sm font-semibold rounded-lg transition-colors"
+                aria-label="WhatsApp पर थोक पूछताछ करें"
+              >
+                <MessageCircle size={16} aria-hidden="true" />
+                <span>थोक पूछताछ</span>
+              </a>
+            </div>
+
+            {/* Mobile Hamburger */}
+            <button
+              onClick={() => setMobileOpen(true)}
+              className="lg:hidden p-2 text-[#0F2A5C] hover:bg-slate-100 rounded-lg transition-colors"
+              aria-label="Menu खोलें"
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-nav"
+            >
+              <Menu size={22} aria-hidden="true" />
+            </button>
+          </div>
+
+          {/* Address bar — desktop only */}
+          <div className="hidden lg:flex items-center justify-between pb-1.5 border-t border-slate-100 pt-1.5">
+            <p className="text-xs text-[#64748B]">
+              📍 {siteConfig.address.full}
+            </p>
+            <p className="text-xs text-[#64748B]">
+              WhatsApp:{" "}
+              <a
+                href={`tel:+91${siteConfig.contact.whatsapp}`}
+                className="text-[#0F2A5C] font-medium hover:text-[#0EA5E9] transition-colors"
+              >
+                {siteConfig.contact.whatsappDisplay}
+              </a>
+            </p>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Navigation Overlay */}
+      <MobileNav
+        isOpen={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        id="mobile-nav"
+      />
+
+      {/* Header height spacer */}
+      <div className="h-16 lg:h-[4.5rem]" aria-hidden="true" />
+    </>
+  );
+}
