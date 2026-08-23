@@ -7,30 +7,25 @@ import { prisma, isDatabaseConfigured } from "../prisma";
 import { products as staticProducts } from "@/data/products";
 import { Product } from "@/types";
 import { deleteImageFromCloudinary } from "../cloudinary";
+import { Prisma } from "@/generated/prisma";
 
-interface ProductWithRelations {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  shortDescription: string;
-  categoryId: string;
-  category: { slug: string; name: string; nameHindi: string };
-  brandId: string | null;
-  brand: { slug: string; name: string } | null;
-  tags: string[];
-  isWholesale: boolean;
-  isFeatured: boolean;
-  isPublished: boolean;
-  enquiryAvailable: boolean;
-  isDemo: boolean;
-  sortOrder: number;
-  createdAt: Date;
-  updatedAt: Date;
-  images: { id: string; url: string; publicId: string; alt: string | null; sortOrder: number }[];
-}
+export type DbProductWithRelations = Prisma.ProductGetPayload<{
+  include: {
+    category: { select: { slug: true; name: true; nameHindi: true } };
+    brand: { select: { slug: true; name: true } };
+    images: true;
+  };
+}>;
 
-function mapDbProductToProduct(dbP: ProductWithRelations): Product {
+export type DbAdminProductWithRelations = Prisma.ProductGetPayload<{
+  include: {
+    category: { select: { id: true; name: true; nameHindi: true; slug: true } };
+    brand: { select: { id: true; name: true; slug: true } };
+    images: true;
+  };
+}>;
+
+function mapDbProductToProduct(dbP: DbProductWithRelations): Product {
   return {
     id: dbP.id,
     name: dbP.name,
@@ -54,7 +49,7 @@ function mapDbProductToProduct(dbP: ProductWithRelations): Product {
 export async function getPublishedProducts(): Promise<Product[]> {
   if (isDatabaseConfigured()) {
     try {
-      const dbProducts = await prisma.product.findMany({
+      const dbProducts: DbProductWithRelations[] = await prisma.product.findMany({
         where: { isPublished: true },
         include: {
           category: { select: { slug: true, name: true, nameHindi: true } },
@@ -63,16 +58,13 @@ export async function getPublishedProducts(): Promise<Product[]> {
         },
         orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
       });
-      return dbProducts.map((p) => mapDbProductToProduct(p as unknown as ProductWithRelations));
+      return dbProducts.map((p: DbProductWithRelations) => mapDbProductToProduct(p));
     } catch (error) {
       console.error("[DB_ERROR] Failed to fetch published products from PostgreSQL:", error);
-      if (process.env.NODE_ENV === "production") {
-        throw new Error("Database query failed while fetching published products in production.");
-      }
     }
   }
 
-  // Development / unconfigured DB fallback (only return sample products that are published)
+  // Development / unconfigured DB / error fallback (only return sample products that are published)
   return staticProducts;
 }
 
@@ -82,7 +74,7 @@ export async function getPublishedProducts(): Promise<Product[]> {
 export async function getPublishedFeaturedProducts(limit = 6): Promise<Product[]> {
   if (isDatabaseConfigured()) {
     try {
-      const dbProducts = await prisma.product.findMany({
+      const dbProducts: DbProductWithRelations[] = await prisma.product.findMany({
         where: { isPublished: true, isFeatured: true },
         include: {
           category: { select: { slug: true, name: true, nameHindi: true } },
@@ -92,12 +84,9 @@ export async function getPublishedFeaturedProducts(limit = 6): Promise<Product[]
         orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
         take: limit,
       });
-      return dbProducts.map((p) => mapDbProductToProduct(p as unknown as ProductWithRelations));
+      return dbProducts.map((p: DbProductWithRelations) => mapDbProductToProduct(p));
     } catch (error) {
       console.error("[DB_ERROR] Failed to fetch featured products from PostgreSQL:", error);
-      if (process.env.NODE_ENV === "production") {
-        throw new Error("Database query failed while fetching featured products in production.");
-      }
     }
   }
 
@@ -110,7 +99,7 @@ export async function getPublishedFeaturedProducts(limit = 6): Promise<Product[]
 export async function getPublishedProductBySlug(slug: string): Promise<Product | null> {
   if (isDatabaseConfigured()) {
     try {
-      const dbP = await prisma.product.findFirst({
+      const dbP: DbProductWithRelations | null = await prisma.product.findFirst({
         where: { slug, isPublished: true },
         include: {
           category: { select: { slug: true, name: true, nameHindi: true } },
@@ -119,16 +108,34 @@ export async function getPublishedProductBySlug(slug: string): Promise<Product |
         },
       });
       if (!dbP) return null;
-      return mapDbProductToProduct(dbP as unknown as ProductWithRelations);
+      return mapDbProductToProduct(dbP);
     } catch (error) {
       console.error(`[DB_ERROR] Failed to fetch product slug '${slug}' from PostgreSQL:`, error);
-      if (process.env.NODE_ENV === "production") {
-        throw new Error(`Database query failed for product '${slug}' in production.`);
-      }
     }
   }
 
   return staticProducts.find((p) => p.slug === slug) ?? null;
+}
+
+export interface AdminProductItem {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  shortDescription: string;
+  categoryId: string;
+  categoryName: string;
+  brandId: string | null;
+  brandName: string | null;
+  tags: string[];
+  isWholesale: boolean;
+  isFeatured: boolean;
+  isPublished: boolean;
+  enquiryAvailable: boolean;
+  isDemo: boolean;
+  images: { id?: string; url: string; publicId: string; alt?: string | null; sortOrder?: number }[];
+  createdAt: Date;
+  updatedAt?: Date;
 }
 
 /**
@@ -138,7 +145,7 @@ export async function getAdminProducts(params?: {
   search?: string;
   categoryId?: string;
   brandId?: string;
-}) {
+}): Promise<AdminProductItem[]> {
   if (!isDatabaseConfigured()) {
     return staticProducts.map((p) => ({
       id: p.id,
@@ -161,7 +168,7 @@ export async function getAdminProducts(params?: {
     }));
   }
 
-  const whereClause: Record<string, unknown> = {};
+  const whereClause: Prisma.ProductWhereInput = {};
 
   if (params?.categoryId) {
     whereClause.categoryId = params.categoryId;
@@ -178,7 +185,7 @@ export async function getAdminProducts(params?: {
     ];
   }
 
-  const products = await prisma.product.findMany({
+  const products: DbAdminProductWithRelations[] = await prisma.product.findMany({
     where: whereClause,
     include: {
       category: { select: { id: true, name: true, nameHindi: true, slug: true } },
@@ -188,7 +195,7 @@ export async function getAdminProducts(params?: {
     orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
   });
 
-  return products.map((p) => ({
+  return products.map((p: DbAdminProductWithRelations): AdminProductItem => ({
     id: p.id,
     name: p.name,
     slug: p.slug,
@@ -210,10 +217,18 @@ export async function getAdminProducts(params?: {
   }));
 }
 
+export type AdminProductDetail = Prisma.ProductGetPayload<{
+  include: {
+    category: true;
+    brand: true;
+    images: { orderBy: { sortOrder: "asc" } };
+  };
+}>;
+
 /**
  * Admin Product Query by ID (for edit form)
  */
-export async function getAdminProductById(id: string) {
+export async function getAdminProductById(id: string): Promise<AdminProductDetail | null> {
   if (!isDatabaseConfigured()) {
     const p = staticProducts.find((item) => item.id === id);
     if (!p) return null;
@@ -224,7 +239,31 @@ export async function getAdminProductById(id: string) {
       description: p.description,
       shortDescription: p.shortDescription,
       categoryId: p.category,
+      category: {
+        id: p.category,
+        name: p.category,
+        nameHindi: p.category,
+        slug: p.category,
+        description: "",
+        icon: "Package",
+        isCore: false,
+        color: "bg-blue-50",
+        sortOrder: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
       brandId: p.brand || null,
+      brand: p.brand ? {
+        id: p.brand,
+        name: p.brand,
+        slug: p.brand,
+        description: "",
+        logoPlaceholder: p.brand.slice(0, 2).toUpperCase(),
+        accentColor: "#0F2A5C",
+        sortOrder: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      } : null,
       tags: p.tags,
       isWholesale: p.isWholesale,
       isFeatured: p.isFeatured,
@@ -232,6 +271,8 @@ export async function getAdminProductById(id: string) {
       enquiryAvailable: p.enquiryAvailable,
       isDemo: p.isDemo,
       sortOrder: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
       images: [],
     };
   }

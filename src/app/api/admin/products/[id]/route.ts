@@ -9,6 +9,7 @@ import { prisma, isDatabaseConfigured } from "@/lib/prisma";
 import { ProductInputSchema } from "@/lib/validations";
 import { getAdminProductById, deleteProductById } from "@/lib/db/products";
 import { deleteImageFromCloudinary } from "@/lib/cloudinary";
+import { ProductImage, Prisma } from "@/generated/prisma";
 
 interface Params {
   params: Promise<{ id: string }>;
@@ -83,7 +84,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
 
     // Identify images to remove from Cloudinary
     const incomingPublicIds = new Set(data.images.map((img) => img.publicId).filter(Boolean));
-    const imagesToDelete = existing.images.filter((img) => !incomingPublicIds.has(img.publicId));
+    const imagesToDelete = existing.images.filter((img: ProductImage) => !incomingPublicIds.has(img.publicId));
 
     for (const img of imagesToDelete) {
       if (img.publicId) {
@@ -92,7 +93,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
     }
 
     // Update product & images in transaction
-    const updatedProduct = await prisma.$transaction(async (tx) => {
+    const updatedProduct = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       // Delete old product images from DB
       await tx.productImage.deleteMany({
         where: { productId: id },

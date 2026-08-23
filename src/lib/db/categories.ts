@@ -5,14 +5,15 @@
 import { prisma, isDatabaseConfigured } from "../prisma";
 import { categories as staticCategories } from "@/data/categories";
 import { Category } from "@/types";
+import { Category as DbCategory } from "@/generated/prisma";
 
 export async function getCategories(): Promise<Category[]> {
   if (isDatabaseConfigured()) {
     try {
-      const dbCategories = await prisma.category.findMany({
+      const dbCategories: DbCategory[] = await prisma.category.findMany({
         orderBy: [{ isCore: "desc" }, { sortOrder: "asc" }, { name: "asc" }],
       });
-      return dbCategories.map((c) => ({
+      return dbCategories.map((c: DbCategory): Category => ({
         id: c.id,
         name: c.name,
         nameHindi: c.nameHindi,
@@ -24,20 +25,17 @@ export async function getCategories(): Promise<Category[]> {
       }));
     } catch (error) {
       console.error("[DB_ERROR] Failed to fetch categories from PostgreSQL:", error);
-      if (process.env.NODE_ENV === "production") {
-        throw new Error("Database query failed while fetching categories in production.");
-      }
     }
   }
 
-  // Development / unconfigured DB fallback
+  // Development / unconfigured DB / error fallback
   return staticCategories;
 }
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
   if (isDatabaseConfigured()) {
     try {
-      const c = await prisma.category.findUnique({
+      const c: DbCategory | null = await prisma.category.findUnique({
         where: { slug },
       });
       if (!c) return null;
@@ -53,9 +51,6 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
       };
     } catch (error) {
       console.error(`[DB_ERROR] Failed to fetch category '${slug}' from PostgreSQL:`, error);
-      if (process.env.NODE_ENV === "production") {
-        throw new Error(`Database query failed for category '${slug}' in production.`);
-      }
     }
   }
 

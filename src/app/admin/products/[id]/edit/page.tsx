@@ -3,6 +3,7 @@ import { getAdminProductById } from "@/lib/db/products";
 import { getCategories } from "@/lib/db/categories";
 import { getBrands } from "@/lib/db/brands";
 import { ProductForm } from "@/components/admin/ProductForm";
+import { Category, Brand } from "@/types";
 
 export const dynamic = "force-dynamic";
 
@@ -58,8 +59,8 @@ export default async function AdminEditProductPage({ params }: EditPageProps) {
 
       <ProductForm
         initialData={initialData}
-        categories={categories.map((c) => ({ id: c.id, name: c.name, nameHindi: c.nameHindi }))}
-        brands={brands.map((b) => ({ id: b.id, name: b.name }))}
+        categories={categories.map((c: Category) => ({ id: c.id, name: c.name, nameHindi: c.nameHindi }))}
+        brands={brands.map((b: Brand) => ({ id: b.id, name: b.name }))}
         isEditing={true}
       />
     </div>

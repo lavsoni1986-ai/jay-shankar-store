@@ -7,6 +7,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAuthenticatedAdmin } from "@/lib/auth";
 import { prisma, isDatabaseConfigured } from "@/lib/prisma";
 import { deleteImageFromCloudinary } from "@/lib/cloudinary";
+import { Prisma } from "@/generated/prisma";
+
+type MediaImageWithProduct = Prisma.ProductImageGetPayload<{
+  include: {
+    product: { select: { id: true; name: true; slug: true } };
+  };
+}>;
 
 export async function GET() {
   const admin = await getAuthenticatedAdmin();
@@ -19,7 +26,7 @@ export async function GET() {
   }
 
   try {
-    const images = await prisma.productImage.findMany({
+    const images: MediaImageWithProduct[] = await prisma.productImage.findMany({
       include: {
         product: { select: { id: true, name: true, slug: true } },
       },
@@ -27,7 +34,7 @@ export async function GET() {
     });
 
     return NextResponse.json({
-      images: images.map((img) => ({
+      images: images.map((img: MediaImageWithProduct) => ({
         id: img.id,
         url: img.url,
         publicId: img.publicId,

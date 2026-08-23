@@ -2,7 +2,7 @@
 // Prisma Client Singleton with PostgreSQL Adapter — Jay Shankar Store
 // ============================================================
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@/generated/prisma";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
 
@@ -36,5 +36,15 @@ if (process.env.NODE_ENV !== "production") {
  * Check whether a real production database URL is configured
  */
 export function isDatabaseConfigured(): boolean {
-  return Boolean(process.env.DATABASE_URL && process.env.DATABASE_URL.trim() !== "");
+  const url = process.env.DATABASE_URL?.trim();
+  if (!url) return false;
+  // Ignore unfilled placeholders
+  if (
+    url.includes("YOUR_") ||
+    url.includes("your_") ||
+    (!url.startsWith("postgresql://") && !url.startsWith("postgres://"))
+  ) {
+    return false;
+  }
+  return true;
 }

@@ -14,10 +14,39 @@ import { prisma, isDatabaseConfigured } from "@/lib/prisma";
 import { products as staticProducts } from "@/data/products";
 import { categories as staticCategories } from "@/data/categories";
 import { brands as staticBrands } from "@/data/brands";
+import { Prisma } from "@/generated/prisma";
 
 export const dynamic = "force-dynamic";
 
-async function getDashboardStats() {
+type RecentProductDb = Prisma.ProductGetPayload<{
+  include: { category: true; brand: true; images: { take: 1 } };
+}>;
+
+interface DashboardRecentProduct {
+  id: string;
+  name: string;
+  slug: string;
+  categoryName: string;
+  brandName: string;
+  isPublished: boolean;
+  isFeatured: boolean;
+  imageCount: number;
+  createdAt: Date;
+}
+
+interface DashboardStats {
+  totalProducts: number;
+  publishedProducts: number;
+  draftProducts: number;
+  featuredProducts: number;
+  totalCategories: number;
+  coreCategories: number;
+  totalBrands: number;
+  recentProducts: DashboardRecentProduct[];
+  isLiveDb: boolean;
+}
+
+async function getDashboardStats(): Promise<DashboardStats> {
   if (isDatabaseConfigured()) {
     try {
       const [
@@ -52,7 +81,7 @@ async function getDashboardStats() {
         totalCategories,
         coreCategories,
         totalBrands,
-        recentProducts: recentProducts.map((p) => ({
+        recentProducts: (recentProducts as RecentProductDb[]).map((p: RecentProductDb): DashboardRecentProduct => ({
           id: p.id,
           name: p.name,
           slug: p.slug,
@@ -79,7 +108,7 @@ async function getDashboardStats() {
     totalCategories: staticCategories.length,
     coreCategories: staticCategories.filter((c) => c.isCore).length,
     totalBrands: staticBrands.length,
-    recentProducts: staticProducts.slice(0, 5).map((p) => ({
+    recentProducts: staticProducts.slice(0, 5).map((p): DashboardRecentProduct => ({
       id: p.id,
       name: p.name,
       slug: p.slug,
@@ -219,7 +248,7 @@ export default async function AdminDashboardPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {stats.recentProducts.map((p) => (
+              {stats.recentProducts.map((p: DashboardRecentProduct) => (
                 <tr key={p.id} className="hover:bg-slate-50 transition-colors">
                   <td className="py-3.5 px-2 font-bold text-[#0F2A5C]">
                     <Link href={`/admin/products/${p.id}/edit`} className="hover:text-[#0EA5E9]">

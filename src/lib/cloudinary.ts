@@ -26,11 +26,15 @@ export const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB
  * Check whether Cloudinary credentials are configured
  */
 export function isCloudinaryConfigured(): boolean {
-  return Boolean(
-    process.env.CLOUDINARY_CLOUD_NAME &&
-      process.env.CLOUDINARY_API_KEY &&
-      process.env.CLOUDINARY_API_SECRET
-  );
+  const cloudName = process.env.CLOUDINARY_CLOUD_NAME?.trim();
+  const apiKey = process.env.CLOUDINARY_API_KEY?.trim();
+  const apiSecret = process.env.CLOUDINARY_API_SECRET?.trim();
+
+  if (!cloudName || !apiKey || !apiSecret) return false;
+  if (cloudName.includes("YOUR_") || apiKey.includes("YOUR_") || apiSecret.includes("YOUR_")) {
+    return false;
+  }
+  return true;
 }
 
 export interface UploadResult {

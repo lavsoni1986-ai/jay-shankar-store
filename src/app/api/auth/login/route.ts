@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { LoginSchema } from "@/lib/validations";
 import { prisma, isDatabaseConfigured } from "@/lib/prisma";
+import { AdminUser } from "@/generated/prisma";
 import {
   verifyPassword,
   createSessionToken,
@@ -44,7 +45,7 @@ export async function POST(request: NextRequest) {
 
     // 3. Database Check
     if (isDatabaseConfigured()) {
-      const user = await prisma.adminUser.findUnique({
+      const user: AdminUser | null = await prisma.adminUser.findUnique({
         where: { email },
       });
 
