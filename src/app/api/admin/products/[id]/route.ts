@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthenticatedAdmin } from "@/lib/auth";
-import { prisma, isDatabaseConfigured } from "@/lib/prisma";
+import { prisma, isDatabaseConfigured, logSafeDatabaseDiagnostics } from "@/lib/prisma";
 import { ProductInputSchema } from "@/lib/validations";
 import { getAdminProductById, deleteProductById } from "@/lib/db/products";
 import { deleteImageFromCloudinary } from "@/lib/cloudinary";
@@ -41,6 +41,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
   }
 
   if (!isDatabaseConfigured()) {
+    logSafeDatabaseDiagnostics();
     return NextResponse.json({ error: "Database is not configured." }, { status: 500 });
   }
 
