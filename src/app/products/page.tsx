@@ -7,6 +7,8 @@ import { getPublishedProducts } from "@/lib/db/products";
 import { getCategories } from "@/lib/db/categories";
 import { getBrands } from "@/lib/db/brands";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "उत्पाद कैटलॉग | थोक रेडीमेड और होजरी",
   description:

@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { siteConfig } from "@/data/siteConfig";
-import { coreCategories, additionalCategories } from "@/data/categories";
+import { getCategories } from "@/lib/db/categories";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { CategoryCard } from "@/components/ui/CategoryCard";
 import { StickyWhatsApp } from "@/components/ui/StickyWhatsApp";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "उत्पाद श्रेणियाँ | थोक रेडीमेड और होजरी",
@@ -15,7 +17,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CategoriesPage() {
+export default async function CategoriesPage() {
+  const allCategories = await getCategories();
+  const coreCategories = allCategories.filter((c) => c.isCore);
+  const additionalCategories = allCategories.filter((c) => !c.isCore);
   return (
     <div className="bg-[#F8FAFC] min-h-screen">
       {/* Header */}

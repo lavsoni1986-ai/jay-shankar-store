@@ -64,7 +64,10 @@ export function ProductCard({ product, variant = "default" }: ProductCardProps) 
   const category = categories.find((c) => c.slug === product.category);
   const brand = product.brand ? brands.find((b) => b.slug === product.brand) : null;
   const enquiryUrl = getProductEnquiryUrl(product.name);
-  const primaryImage = product.images && product.images.length > 0 ? product.images[0] : null;
+  const primaryImage =
+    Array.isArray(product.images) && product.images.length > 0 && product.images[0]?.trim()
+      ? product.images[0].trim()
+      : null;
 
   if (variant === "compact") {
     return (

@@ -16,6 +16,8 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const product = await getPublishedProductBySlug(slug);
@@ -107,8 +109,10 @@ export default async function ProductDetailPage({ params }: PageProps) {
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 3);
 
-  const images = product.images || [];
-  const primaryImage = images[0] || null;
+  const images = (product.images || []).filter(
+    (img): img is string => Boolean(img && typeof img === "string" && img.trim().length > 0)
+  );
+  const primaryImage = images.length > 0 ? images[0] : null;
 
   return (
     <div className="bg-[#F8FAFC] min-h-screen">

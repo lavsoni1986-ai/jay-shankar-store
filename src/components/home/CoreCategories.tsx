@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { coreCategories } from "@/data/categories";
+import { getCategories } from "@/lib/db/categories";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { CategoryCard } from "@/components/ui/CategoryCard";
 
-export function CoreCategories() {
+export async function CoreCategories() {
+  const allCategories = await getCategories();
+  const coreCategories = allCategories.filter((c) => c.isCore);
   return (
     <section
       className="py-16 lg:py-20 bg-[#F8FAFC]"

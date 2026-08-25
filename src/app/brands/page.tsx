@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { siteConfig } from "@/data/siteConfig";
-import { brands } from "@/data/brands";
+import { getBrands } from "@/lib/db/brands";
 import { BrandCard } from "@/components/ui/BrandCard";
 import { StickyWhatsApp } from "@/components/ui/StickyWhatsApp";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "हमारे प्रमुख ब्रांड | Brand Availability",
@@ -14,7 +16,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BrandsPage() {
+export default async function BrandsPage() {
+  const brands = await getBrands();
   return (
     <div className="bg-[#F8FAFC] min-h-screen">
       {/* Header */}

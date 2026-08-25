@@ -9,6 +9,8 @@ import { LocationSection } from "@/components/home/LocationSection";
 import { StickyWhatsApp } from "@/components/ui/StickyWhatsApp";
 import { siteConfig } from "@/data/siteConfig";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Jay Shankar Readymade Store | थोक रेडीमेड और होजरी — शहडोल",
   description:

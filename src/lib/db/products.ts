@@ -26,15 +26,21 @@ export type DbAdminProductWithRelations = Prisma.ProductGetPayload<{
 }>;
 
 function mapDbProductToProduct(dbP: DbProductWithRelations): Product {
+  const sortedImages = (dbP.images || [])
+    .slice()
+    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+    .map((img) => img.url)
+    .filter((url): url is string => Boolean(url && typeof url === "string" && url.trim().length > 0));
+
   return {
     id: dbP.id,
     name: dbP.name,
     slug: dbP.slug,
-    category: dbP.category.slug,
+    category: dbP.category?.slug || "",
     brand: dbP.brand ? dbP.brand.slug : undefined,
     description: dbP.description,
     shortDescription: dbP.shortDescription,
-    images: dbP.images.sort((a, b) => a.sortOrder - b.sortOrder).map((img) => img.url),
+    images: sortedImages,
     tags: dbP.tags,
     isWholesale: dbP.isWholesale,
     isFeatured: dbP.isFeatured,

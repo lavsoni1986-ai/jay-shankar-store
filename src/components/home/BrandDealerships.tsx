@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { brands } from "@/data/brands";
+import { getBrands } from "@/lib/db/brands";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { BrandCard } from "@/components/ui/BrandCard";
 
-export function BrandDealerships() {
+export async function BrandDealerships() {
+  const brands = await getBrands();
   return (
     <section
       className="py-16 lg:py-20 bg-white"
