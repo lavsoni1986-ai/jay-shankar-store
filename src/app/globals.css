@@ -2,6 +2,18 @@
 @import "tailwindcss";
 
 
+:root {
+  --header-height-mobile: 4rem; /* 64px on mobile (< 1024px) */
+  --header-height-desktop: 6.375rem; /* 102px: 72px main bar + 30px address bar on desktop (>= 1024px) */
+  --header-height: var(--header-height-mobile);
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --header-height: var(--header-height-desktop);
+  }
+}
+
 @theme {
   /* Brand Colors */
   --color-primary: #0f2a5c;

@@ -11,7 +11,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   // If on login page, render full screen without sidebar/header
   if (pathname === "/admin/login") {
-    return <div className="min-h-screen bg-[#081A3E]">{children}</div>;
+    return <div className="min-h-[calc(100vh-var(--header-height))] bg-[#081A3E]">{children}</div>;
   }
 
   const getPageTitle = () => {
@@ -27,7 +27,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   return (
-    <div className="flex h-screen bg-[#F8FAFC] overflow-hidden">
+    <div className="flex h-[calc(100vh-var(--header-height))] bg-[#F8FAFC] overflow-hidden">
       {/* Sidebar */}
       <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 

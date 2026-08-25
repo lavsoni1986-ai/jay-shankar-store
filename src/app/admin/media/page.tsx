@@ -182,7 +182,7 @@ export default function AdminMediaPage() {
 
       {/* Upload Modal */}
       {showUploadModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
           <div className="bg-white rounded-3xl p-6 max-w-lg w-full shadow-2xl border border-slate-200">
             <h3 className="text-base font-bold text-[#0F2A5C] mb-1">
               मीडिया अपलोड करें (Upload Media to Cloudinary)

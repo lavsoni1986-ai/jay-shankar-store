@@ -128,15 +128,15 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
   return (
     <>
       {/* Desktop static sidebar */}
-      <aside className="hidden lg:flex w-64 shrink-0 flex-col border-r border-slate-800">
+      <aside className="hidden lg:flex w-64 shrink-0 flex-col border-r border-slate-800 h-full">
         {content}
       </aside>
 
       {/* Mobile Drawer */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+        <div className="fixed inset-0 z-[60] lg:hidden">
           <div className="fixed inset-0 bg-black/60 backdrop-blur-xs" onClick={onClose} />
-          <div className="fixed inset-y-0 left-0 w-72 max-w-[85vw] shadow-2xl z-50">
+          <div className="fixed inset-y-0 left-0 w-72 max-w-[85vw] shadow-2xl z-[60]">
             {content}
           </div>
         </div>

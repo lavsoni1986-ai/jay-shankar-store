@@ -99,11 +99,11 @@ export function Header() {
           </div>
 
           {/* Address bar — desktop only */}
-          <div className="hidden lg:flex items-center justify-between pb-1.5 border-t border-slate-100 pt-1.5">
-            <p className="text-xs text-[#64748B]">
+          <div className="hidden lg:flex items-center justify-between h-[30px] border-t border-slate-100 text-xs text-[#64748B]">
+            <p>
               📍 {siteConfig.address.full}
             </p>
-            <p className="text-xs text-[#64748B]">
+            <p>
               WhatsApp:{" "}
               <a
                 href={`tel:+91${siteConfig.contact.whatsapp}`}
@@ -124,7 +124,7 @@ export function Header() {
       />
 
       {/* Header height spacer */}
-      <div className="h-16 lg:h-[4.5rem]" aria-hidden="true" />
+      <div className="h-[var(--header-height)] shrink-0" aria-hidden="true" />
     </>
   );
 }

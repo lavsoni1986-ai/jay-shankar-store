@@ -10,7 +10,7 @@ interface AdminHeaderProps {
 
 export function AdminHeader({ onMenuClick, title = "Admin CMS" }: AdminHeaderProps) {
   return (
-    <header className="h-16 bg-white border-b border-slate-200 px-4 sm:px-6 lg:px-8 flex items-center justify-between sticky top-0 z-30 shadow-xs">
+    <header className="h-16 shrink-0 bg-white border-b border-slate-200 px-4 sm:px-6 lg:px-8 flex items-center justify-between z-10 shadow-xs">
       <div className="flex items-center gap-3">
         <button
           onClick={onMenuClick}

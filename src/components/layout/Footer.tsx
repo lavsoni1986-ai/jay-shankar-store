@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { MessageCircle, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/data/siteConfig";
 import { coreCategories } from "@/data/categories";
@@ -6,7 +9,12 @@ import { brands } from "@/data/brands";
 import { getGeneralEnquiryUrl } from "@/lib/whatsapp";
 
 export function Footer() {
+  const pathname = usePathname();
   const currentYear = new Date().getFullYear();
+
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   return (
     <footer
