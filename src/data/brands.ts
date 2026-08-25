@@ -14,6 +14,8 @@ export const brands: Brand[] = [
       "Lux innerwear and hosiery products — available wholesale at Jay Shankar Store.",
     categories: ["hosiery", "undergarments"],
     logoPlaceholder: "LUX",
+    logoUrl:
+      "https://res.cloudinary.com/dbz0kkwaj/image/upload/v1787644671/jay-shankar-store/products/lux_brand_logo_1787644670159.png",
     accentColor: "#1e40af",
   },
   {
@@ -24,6 +26,8 @@ export const brands: Brand[] = [
       "Essdee hosiery products — wholesale supply for dealers and retailers.",
     categories: ["hosiery", "undergarments"],
     logoPlaceholder: "SD",
+    logoUrl:
+      "https://res.cloudinary.com/dbz0kkwaj/image/upload/v1787644808/jay-shankar-store/products/essdee_brand_logo_1787644806094.png",
     accentColor: "#0f766e",
   },
   {
@@ -34,6 +38,8 @@ export const brands: Brand[] = [
       "Zeel Rainwear — wholesale raincoats and rain protection products.",
     categories: ["zeel-raincoat", "raincoat"],
     logoPlaceholder: "ZR",
+    logoUrl:
+      "https://res.cloudinary.com/dbz0kkwaj/image/upload/v1787644810/jay-shankar-store/products/zeel_brand_logo_1787644809255.png",
     accentColor: "#0369a1",
   },
   {

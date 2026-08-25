@@ -10,6 +10,7 @@ interface BrandItem {
   slug: string;
   description: string;
   logoPlaceholder: string;
+  logoUrl?: string;
   accentColor: string;
 }
 
@@ -23,6 +24,8 @@ export default function AdminBrandsPage() {
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
   const [logoPlaceholder, setLogoPlaceholder] = useState("");
+  const [logoUrl, setLogoUrl] = useState("");
+  const [uploadingLogo, setUploadingLogo] = useState(false);
   const [accentColor, setAccentColor] = useState("#0F2A5C");
 
   const [saving, setSaving] = useState(false);
@@ -61,6 +64,7 @@ export default function AdminBrandsPage() {
     setSlug("");
     setDescription("");
     setLogoPlaceholder("");
+    setLogoUrl("");
     setAccentColor("#0F2A5C");
     setError(null);
     setModalOpen(true);
@@ -72,6 +76,7 @@ export default function AdminBrandsPage() {
     setSlug(b.slug);
     setDescription(b.description);
     setLogoPlaceholder(b.logoPlaceholder);
+    setLogoUrl(b.logoUrl || "");
     setAccentColor(b.accentColor || "#0F2A5C");
     setError(null);
     setModalOpen(true);
@@ -85,6 +90,28 @@ export default function AdminBrandsPage() {
     }
   };
 
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingLogo(true);
+    setError(null);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: fd,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Logo upload failed");
+      setLogoUrl(data.url);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setUploadingLogo(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
@@ -95,6 +122,7 @@ export default function AdminBrandsPage() {
       slug: slug.trim().toLowerCase(),
       description: description.trim(),
       logoPlaceholder: logoPlaceholder.trim().toUpperCase() || name.trim().slice(0, 3).toUpperCase(),
+      logoUrl: logoUrl.trim() || undefined,
       accentColor,
     };
 
@@ -188,10 +216,22 @@ export default function AdminBrandsPage() {
                   <tr key={b.id} className="hover:bg-slate-50/70 transition-colors">
                     <td className="py-3.5 px-4">
                       <div
-                        className="w-10 h-10 rounded-xl text-white font-bold text-xs flex items-center justify-center shadow-xs"
-                        style={{ backgroundColor: b.accentColor }}
+                        className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden relative shadow-xs border border-slate-100 bg-white"
                       >
-                        {b.logoPlaceholder}
+                        {b.logoUrl ? (
+                          <img
+                            src={b.logoUrl}
+                            alt={b.name}
+                            className="w-full h-full object-contain p-1"
+                          />
+                        ) : (
+                          <div
+                            className="w-full h-full flex items-center justify-center text-white font-bold text-xs"
+                            style={{ backgroundColor: b.accentColor }}
+                          >
+                            {b.logoPlaceholder}
+                          </div>
+                        )}
                       </div>
                     </td>
                     <td className="py-3.5 px-4 font-bold text-[#0F2A5C]">{b.name}</td>
@@ -235,7 +275,7 @@ export default function AdminBrandsPage() {
       {/* Modal for Add / Edit */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-slate-200">
+          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
               <h3 className="text-base font-bold text-[#0F2A5C]">
                 {editingBrand ? "ब्रांड संपादित करें (Edit Brand)" : "नया ब्रांड जोड़ें (Add Brand)"}
@@ -280,9 +320,66 @@ export default function AdminBrandsPage() {
                 />
               </div>
 
+              {/* Logo Section */}
+              <div className="p-3 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+                <label className="block font-bold text-slate-700">आधिकारिक लोगो (Brand Official Logo)</label>
+                <div className="flex items-center gap-3">
+                  <div className="w-14 h-14 rounded-xl border border-slate-200 bg-white flex items-center justify-center overflow-hidden shrink-0 shadow-xs">
+                    {logoUrl ? (
+                      <img src={logoUrl} alt="Logo preview" className="w-full h-full object-contain p-1" />
+                    ) : (
+                      <div
+                        className="w-full h-full flex items-center justify-center text-white font-bold text-sm"
+                        style={{ backgroundColor: accentColor }}
+                      >
+                        {logoPlaceholder || "LOGO"}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1 space-y-1.5">
+                    <label className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-[#0EA5E9] text-slate-700 rounded-xl cursor-pointer text-[11px] font-semibold transition-colors">
+                      {uploadingLogo ? (
+                        <>
+                          <Loader2 size={12} className="animate-spin text-[#0EA5E9]" />
+                          अपलोड हो रहा है...
+                        </>
+                      ) : (
+                        <>
+                          <Plus size={12} />
+                          लोगो अपलोड करें (Upload)
+                        </>
+                      )}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        disabled={uploadingLogo}
+                        onChange={handleLogoUpload}
+                        className="hidden"
+                      />
+                    </label>
+                    {logoUrl && (
+                      <button
+                        type="button"
+                        onClick={() => setLogoUrl("")}
+                        className="block text-[11px] text-red-500 hover:text-red-700 cursor-pointer"
+                      >
+                        लोगो हटाएं (Use Initials)
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <input
+                  type="text"
+                  value={logoUrl}
+                  onChange={(e) => setLogoUrl(e.target.value)}
+                  placeholder="https://res.cloudinary.com/... (या सीधा URL दर्ज करें)"
+                  className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-[#0EA5E9] text-[11px] font-mono text-slate-600"
+                />
+              </div>
+
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">लोगो संक्षिप्त अक्षर (Initials) *</label>
+                  <label className="block font-bold text-slate-700 mb-1">लोगो संक्षिप्त अक्षर (Initials Fallback) *</label>
                   <input
                     type="text"
                     required

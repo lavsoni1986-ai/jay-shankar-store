@@ -50,6 +50,7 @@ export const BrandInputSchema = z.object({
   slug: z.string().min(2).max(100).regex(/^[a-z0-9-]+$/),
   description: z.string().min(5).max(300),
   logoPlaceholder: z.string().min(1).max(10),
+  logoUrl: z.string().url("Valid URL required").optional().nullable().or(z.literal("")),
   accentColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Must be a valid hex color (#RRGGBB)"),
   sortOrder: z.number().int().default(0),
 });

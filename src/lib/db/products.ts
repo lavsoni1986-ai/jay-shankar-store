@@ -265,6 +265,7 @@ export async function getAdminProductById(id: string): Promise<AdminProductDetai
         slug: p.brand,
         description: "",
         logoPlaceholder: p.brand.slice(0, 2).toUpperCase(),
+        logoUrl: null,
         accentColor: "#0F2A5C",
         sortOrder: 0,
         createdAt: new Date(),

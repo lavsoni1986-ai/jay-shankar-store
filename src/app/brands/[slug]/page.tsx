@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getBrandBySlug, getBrands } from "@/lib/db/brands";
 import { getCategories } from "@/lib/db/categories";
@@ -8,6 +9,7 @@ import { siteConfig } from "@/data/siteConfig";
 import { getBrandEnquiryUrl } from "@/lib/whatsapp";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { StickyWhatsApp } from "@/components/ui/StickyWhatsApp";
+import { getOptimizedImageUrl } from "@/lib/image-utils";
 import { Package } from "lucide-react";
 
 interface PageProps {
@@ -67,11 +69,30 @@ export default async function BrandDetailPage({ params }: PageProps) {
 
           <div className="flex items-center gap-4 mb-3">
             <div
-              className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg"
-              style={{ backgroundColor: brand.accentColor }}
-              aria-hidden="true"
+              className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg overflow-hidden relative bg-white border border-white/20 p-2 shrink-0"
+              aria-label={`${brand.name} logo`}
             >
-              {brand.logoPlaceholder}
+              {brand.logoUrl ? (
+                <div className="relative w-full h-full">
+                  <Image
+                    src={getOptimizedImageUrl(brand.logoUrl, { width: 160, height: 160 })}
+                    alt={`${brand.name} logo`}
+                    fill
+                    sizes="64px"
+                    className="object-contain p-0.5"
+                    priority
+                    unoptimized
+                  />
+                </div>
+              ) : (
+                <div
+                  className="w-full h-full rounded-xl flex items-center justify-center text-white font-bold text-lg"
+                  style={{ backgroundColor: brand.accentColor }}
+                  aria-hidden="true"
+                >
+                  {brand.logoPlaceholder}
+                </div>
+              )}
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-white mb-0.5">

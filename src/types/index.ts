@@ -37,6 +37,7 @@ export interface Brand {
   description: string;
   categories: string[]; // category slugs this brand covers
   logoPlaceholder: string; // initials / short abbrev for text card
+  logoUrl?: string; // official brand logo URL
   accentColor: string; // hex accent for card styling
 }
 

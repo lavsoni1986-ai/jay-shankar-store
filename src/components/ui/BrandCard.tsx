@@ -1,6 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Brand } from "@/types";
 import { getBrandEnquiryUrl } from "@/lib/whatsapp";
+import { getOptimizedImageUrl } from "@/lib/image-utils";
 
 interface BrandCardProps {
   brand: Brand;
@@ -8,6 +10,8 @@ interface BrandCardProps {
 }
 
 export function BrandCard({ brand, variant = "default" }: BrandCardProps) {
+  const hasLogo = Boolean(brand.logoUrl && brand.logoUrl.trim().length > 0);
+
   if (variant === "compact") {
     return (
       <Link
@@ -16,11 +20,26 @@ export function BrandCard({ brand, variant = "default" }: BrandCardProps) {
         aria-label={`${brand.name} — उत्पाद देखें`}
       >
         <div
-          className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 text-white font-bold text-sm"
-          style={{ backgroundColor: brand.accentColor }}
-          aria-hidden="true"
+          className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 border border-slate-100 bg-white overflow-hidden relative"
         >
-          {brand.logoPlaceholder}
+          {hasLogo ? (
+            <Image
+              src={getOptimizedImageUrl(brand.logoUrl!, { width: 80, height: 80 })}
+              alt={`${brand.name} logo`}
+              fill
+              sizes="40px"
+              className="object-contain p-1"
+              unoptimized
+            />
+          ) : (
+            <div
+              className="w-full h-full flex items-center justify-center text-white font-bold text-xs"
+              style={{ backgroundColor: brand.accentColor }}
+              aria-hidden="true"
+            >
+              {brand.logoPlaceholder}
+            </div>
+          )}
         </div>
         <span className="text-sm font-semibold text-[#0F2A5C] group-hover:text-[#0EA5E9] transition-colors">
           {brand.name}
@@ -31,14 +50,32 @@ export function BrandCard({ brand, variant = "default" }: BrandCardProps) {
 
   return (
     <div className="group bg-white border border-slate-100 rounded-2xl p-6 hover:shadow-[0_4px_20px_rgba(15,42,92,0.1)] hover:border-slate-200 transition-all duration-200 flex flex-col">
-      {/* Logo placeholder */}
+      {/* Brand logo / placeholder */}
       <div className="flex items-start justify-between mb-5">
         <div
-          className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-sm"
-          style={{ backgroundColor: brand.accentColor }}
-          aria-label={`${brand.name} logo placeholder`}
+          className="w-16 h-16 rounded-xl flex items-center justify-center shadow-xs border border-slate-100 overflow-hidden relative bg-white shrink-0 p-1.5"
+          aria-label={`${brand.name} logo`}
         >
-          {brand.logoPlaceholder}
+          {hasLogo ? (
+            <div className="relative w-full h-full">
+              <Image
+                src={getOptimizedImageUrl(brand.logoUrl!, { width: 140, height: 140 })}
+                alt={`${brand.name} logo`}
+                fill
+                sizes="64px"
+                className="object-contain p-0.5"
+                unoptimized
+              />
+            </div>
+          ) : (
+            <div
+              className="w-full h-full rounded-lg flex items-center justify-center text-white font-bold text-lg"
+              style={{ backgroundColor: brand.accentColor }}
+              aria-label={`${brand.name} logo placeholder`}
+            >
+              {brand.logoPlaceholder}
+            </div>
+          )}
         </div>
         <span className="text-xs px-2 py-1 bg-[#F0F9FF] text-[#0284C7] rounded-full font-medium border border-[#BAE6FD]">
           ब्रांड उपलब्धता

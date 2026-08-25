@@ -52,7 +52,10 @@ export async function POST(request: NextRequest) {
     }
 
     const created = await prisma.brand.create({
-      data,
+      data: {
+        ...data,
+        logoUrl: data.logoUrl?.trim() || null,
+      },
     });
 
     return NextResponse.json({ success: true, brand: created }, { status: 201 });
@@ -85,9 +88,13 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: "Validation failed", details: parsed.error.format() }, { status: 400 });
     }
 
+    const data = parsed.data;
     const updated = await prisma.brand.update({
       where: { id },
-      data: parsed.data,
+      data: {
+        ...data,
+        logoUrl: data.logoUrl?.trim() || null,
+      },
     });
 
     return NextResponse.json({ success: true, brand: updated });

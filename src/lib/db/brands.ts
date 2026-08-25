@@ -20,6 +20,7 @@ export async function getBrands(): Promise<Brand[]> {
         description: b.description,
         categories: [],
         logoPlaceholder: b.logoPlaceholder,
+        logoUrl: b.logoUrl || undefined,
         accentColor: b.accentColor,
       }));
     } catch (error) {
@@ -45,6 +46,7 @@ export async function getBrandBySlug(slug: string): Promise<Brand | null> {
         description: b.description,
         categories: [],
         logoPlaceholder: b.logoPlaceholder,
+        logoUrl: b.logoUrl || undefined,
         accentColor: b.accentColor,
       };
     } catch (error) {
