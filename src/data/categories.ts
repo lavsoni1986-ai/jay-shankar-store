@@ -13,7 +13,7 @@ export const categories: Category[] = [
     nameHindi: "होजरी",
     slug: "hosiery",
     description:
-      "Vests, briefs, socks, innerwear and all hosiery items — wholesale supply.",
+      "Vests, briefs, socks, innerwear and all hosiery products.",
     icon: "Shirt",
     isCore: true,
     color: "bg-blue-50",
@@ -24,7 +24,7 @@ export const categories: Category[] = [
     nameHindi: "कोलकाता रेडीमेड",
     slug: "kolkata-readymade",
     description:
-      "Premium Kolkata readymade garments — sarees, suits, kurtas and more.",
+      "Premium Kolkata readymade garments — quality wholesale.",
     icon: "Package",
     isCore: true,
     color: "bg-indigo-50",
@@ -35,7 +35,7 @@ export const categories: Category[] = [
     nameHindi: "छाता",
     slug: "umbrella",
     description:
-      "Wholesale umbrellas — various sizes, designs and colours for all seasons.",
+      "Wholesale umbrellas — various sizes, designs and quality.",
     icon: "Umbrella",
     isCore: true,
     color: "bg-sky-50",
@@ -46,7 +46,7 @@ export const categories: Category[] = [
     nameHindi: "पन्नी",
     slug: "panni",
     description:
-      "Wholesale plastic bags and panni products for trade and retail use.",
+      "Wholesale plastic bags and panni products for trade and business.",
     icon: "ShoppingBag",
     isCore: true,
     color: "bg-green-50",
@@ -57,7 +57,7 @@ export const categories: Category[] = [
     nameHindi: "ज़ील रेनकोट",
     slug: "zeel-raincoat",
     description:
-      "Zeel branded raincoats — durable, waterproof, wholesale available.",
+      "Raincoats and rainwear products for all seasons.",
     icon: "CloudRain",
     isCore: true,
     color: "bg-cyan-50",
@@ -68,7 +68,7 @@ export const categories: Category[] = [
     nameHindi: "नेवार",
     slug: "newar",
     description:
-      "Wholesale Newar — cotton/nylon webbing tape used in furniture and handicrafts.",
+      "High quality newar, sweaters and warm innerwear.",
     icon: "Layers",
     isCore: true,
     color: "bg-amber-50",
@@ -79,7 +79,7 @@ export const categories: Category[] = [
     nameHindi: "त्रिपाल",
     slug: "tripal",
     description:
-      "Heavy-duty tarpaulin / tripal sheets — waterproof, wholesale supply.",
+      "Strong and durable tripal for various industrial uses.",
     icon: "Box",
     isCore: true,
     color: "bg-orange-50",
@@ -90,7 +90,7 @@ export const categories: Category[] = [
     nameHindi: "झोला",
     slug: "jhola",
     description:
-      "Cloth bags / jhola — various sizes, wholesale for trade use.",
+      "Wholesale jhola, bags and carry products in bulk.",
     icon: "ShoppingBag",
     isCore: true,
     color: "bg-rose-50",
