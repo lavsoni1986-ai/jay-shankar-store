@@ -163,6 +163,15 @@ export function Footer() {
             Wholesale Readymade & Hosiery — Shahdol, Madhya Pradesh 484001
           </p>
         </div>
+        {/* Developer Attribution */}
+        <div className="border-t border-white/5 py-3.5 bg-black/15 text-center">
+          <p className="text-xs font-medium text-slate-400">
+            Designed & Developed by <span className="text-slate-200 font-semibold">BharatOS</span>
+          </p>
+          <p className="text-[11px] text-slate-500 tracking-wide mt-0.5">
+            AI • Web • Digital Solutions
+          </p>
+        </div>
       </div>
     </footer>
   );
