@@ -45,7 +45,7 @@ export function Header() {
             {/* Logo */}
             <Link
               href="/"
-              className="flex items-center group py-1 shrink-0"
+              className="flex items-center gap-2.5 sm:gap-3 group py-1 shrink-0"
               aria-label="Jay Shankar Readymade Store — Home"
             >
               <Image
@@ -54,8 +54,16 @@ export function Header() {
                 width={990}
                 height={1024}
                 priority
-                className="h-10 sm:h-11 lg:h-12 w-auto object-contain transition-transform group-hover:scale-105 duration-200"
+                className="h-9 sm:h-10 lg:h-11 w-auto object-contain transition-transform group-hover:scale-105 duration-200"
               />
+              <div className="flex flex-col leading-tight">
+                <span className="text-base sm:text-lg font-bold text-[#0F2A5C] group-hover:text-[#0EA5E9] transition-colors tracking-tight">
+                  Jay Shankar
+                </span>
+                <span className="text-[10px] sm:text-xs font-medium text-[#0EA5E9] tracking-wide uppercase">
+                  Readymade Store
+                </span>
+              </div>
             </Link>
 
             {/* Desktop Navigation */}
