@@ -14,7 +14,7 @@ export function PwaRegister() {
           const registration = await navigator.serviceWorker.register("/sw.js", {
             scope: "/",
           });
-          
+
           registration.onupdatefound = () => {
             const installingWorker = registration.installing;
             if (installingWorker) {
@@ -34,8 +34,12 @@ export function PwaRegister() {
         }
       };
 
-      window.addEventListener("load", register);
-      return () => window.removeEventListener("load", register);
+      if (document.readyState === "complete") {
+        register();
+      } else {
+        window.addEventListener("load", register);
+        return () => window.removeEventListener("load", register);
+      }
     }
   }, []);
 
