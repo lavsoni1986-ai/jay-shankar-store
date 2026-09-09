@@ -3,14 +3,16 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, MessageCircle } from "lucide-react";
+import { Menu, MessageCircle, Download } from "lucide-react";
 import { navItems, siteConfig } from "@/data/siteConfig";
 import { getGeneralEnquiryUrl } from "@/lib/whatsapp";
+import { usePwaInstall } from "@/lib/usePwaInstall";
 import { MobileNav } from "./MobileNav";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { canInstall, installApp } = usePwaInstall();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -114,15 +116,26 @@ export function Header() {
             <p>
               📍 {siteConfig.address.full}
             </p>
-            <p>
-              WhatsApp:{" "}
-              <a
-                href={`tel:+91${siteConfig.contact.whatsapp}`}
-                className="text-[#0F2A5C] font-medium hover:text-[#0EA5E9] transition-colors"
-              >
-                {siteConfig.contact.whatsappDisplay}
-              </a>
-            </p>
+            <div className="flex items-center gap-4">
+              {canInstall && (
+                <button
+                  onClick={installApp}
+                  className="inline-flex items-center gap-1 font-semibold text-[#0F2A5C] hover:text-[#0EA5E9] transition-colors"
+                >
+                  <Download size={13} aria-hidden="true" />
+                  <span>ऐप इंस्टॉल करें</span>
+                </button>
+              )}
+              <p>
+                WhatsApp:{" "}
+                <a
+                  href={`tel:+91${siteConfig.contact.whatsapp}`}
+                  className="text-[#0F2A5C] font-medium hover:text-[#0EA5E9] transition-colors"
+                >
+                  {siteConfig.contact.whatsappDisplay}
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </header>

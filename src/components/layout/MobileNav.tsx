@@ -3,9 +3,10 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { X, MessageCircle, Phone, MapPin } from "lucide-react";
+import { X, MessageCircle, Phone, MapPin, Download } from "lucide-react";
 import { navItems, siteConfig } from "@/data/siteConfig";
 import { getGeneralEnquiryUrl } from "@/lib/whatsapp";
+import { usePwaInstall } from "@/lib/usePwaInstall";
 
 interface MobileNavProps {
   isOpen: boolean;
@@ -15,6 +16,14 @@ interface MobileNavProps {
 
 export function MobileNav({ isOpen, onClose, id }: MobileNavProps) {
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
+  const { canInstall, installApp } = usePwaInstall();
+
+  const handleInstallClick = async () => {
+    const installed = await installApp();
+    if (installed) {
+      onClose();
+    }
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -128,8 +137,21 @@ export function MobileNav({ isOpen, onClose, id }: MobileNavProps) {
           </div>
         </div>
 
-        {/* WhatsApp CTA */}
-        <div className="px-4 py-4 border-t border-slate-100">
+        {/* Actions Container */}
+        <div className="px-4 py-4 border-t border-slate-100 space-y-2.5">
+          {/* PWA Install Button (rendered only when browser is eligible and not yet installed) */}
+          {canInstall && (
+            <button
+              onClick={handleInstallClick}
+              className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-[#0F2A5C] hover:bg-[#081A3E] text-white text-sm font-bold rounded-xl shadow-sm transition-all active:scale-[0.98]"
+              aria-label="📱 ऐप इंस्टॉल करें (Install App)"
+            >
+              <Download size={18} aria-hidden="true" />
+              <span>📱 ऐप इंस्टॉल करें (Install App)</span>
+            </button>
+          )}
+
+          {/* WhatsApp CTA */}
           <a
             href={getGeneralEnquiryUrl()}
             target="_blank"
