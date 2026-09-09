@@ -59,6 +59,8 @@ const organizationJsonLd = {
   name: siteConfig.name,
   description: siteConfig.descriptionEnglish,
   url: siteConfig.url,
+  logo: `${siteConfig.url}/images/jay-shankar-js-logo.png`,
+  image: `${siteConfig.url}/images/jay-shankar-full-logo.png`,
   telephone: `+91${siteConfig.contact.whatsapp}`,
   address: {
     "@type": "PostalAddress",

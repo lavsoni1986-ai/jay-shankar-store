@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { X, MessageCircle, Phone, MapPin } from "lucide-react";
@@ -54,12 +55,28 @@ export function MobileNav({ isOpen, onClose, id }: MobileNavProps) {
       >
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
-          <div className="flex flex-col">
-            <span className="text-base font-bold text-[#0F2A5C]">Jay Shankar</span>
-            <span className="text-xs font-medium text-[#0EA5E9] uppercase tracking-wide">
-              Readymade Store
-            </span>
-          </div>
+          <Link
+            href="/"
+            onClick={onClose}
+            className="flex items-center gap-2.5 group"
+            aria-label="Jay Shankar Readymade Store — Home"
+          >
+            <Image
+              src="/images/jay-shankar-js-logo.png"
+              alt="Jay Shankar Readymade Store"
+              width={990}
+              height={1024}
+              className="h-10 w-auto object-contain"
+            />
+            <div className="flex flex-col leading-tight">
+              <span className="text-base font-bold text-[#0F2A5C] group-hover:text-[#0EA5E9] transition-colors">
+                Jay Shankar
+              </span>
+              <span className="text-xs font-medium text-[#0EA5E9] uppercase tracking-wide">
+                Readymade Store
+              </span>
+            </div>
+          </Link>
           <button
             onClick={onClose}
             className="p-2 text-slate-500 hover:text-[#0F2A5C] hover:bg-slate-100 rounded-lg transition-colors"

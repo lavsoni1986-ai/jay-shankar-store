@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -46,11 +47,20 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
     <div className="flex flex-col h-full bg-[#081A3E] text-white">
       {/* Brand Header */}
       <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
-        <Link href="/admin" className="flex flex-col">
-          <span className="text-base font-bold text-white tracking-tight">Jay Shankar</span>
-          <span className="text-xs font-semibold text-[#0EA5E9] uppercase tracking-wider">
-            Admin CMS
-          </span>
+        <Link href="/admin" className="flex items-center gap-3 group">
+          <Image
+            src="/images/jay-shankar-js-logo.png"
+            alt="Jay Shankar Logo"
+            width={990}
+            height={1024}
+            className="h-8 w-auto object-contain"
+          />
+          <div className="flex flex-col leading-tight">
+            <span className="text-base font-bold text-white tracking-tight group-hover:text-[#0EA5E9] transition-colors">Jay Shankar</span>
+            <span className="text-xs font-semibold text-[#0EA5E9] uppercase tracking-wider">
+              Admin CMS
+            </span>
+          </div>
         </Link>
         {onClose && (
           <button

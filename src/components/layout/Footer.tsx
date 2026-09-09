@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MessageCircle, MapPin, Phone } from "lucide-react";
@@ -26,14 +27,27 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
         {/* Brand Column */}
         <div className="lg:col-span-1">
-          <div className="mb-4">
-            <h2 className="text-xl font-bold text-white leading-tight">
-              Jay Shankar
-            </h2>
-            <p className="text-sm font-medium text-[#38BDF8] tracking-wide">
-              Readymade Store
-            </p>
-          </div>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-3 mb-4 group"
+            aria-label="Jay Shankar Readymade Store — Home"
+          >
+            <Image
+              src="/images/jay-shankar-js-logo.png"
+              alt="Jay Shankar Readymade Store Logo"
+              width={990}
+              height={1024}
+              className="h-12 w-auto object-contain transition-transform group-hover:scale-105 duration-200"
+            />
+            <div>
+              <h2 className="text-xl font-bold text-white leading-tight group-hover:text-[#38BDF8] transition-colors">
+                Jay Shankar
+              </h2>
+              <p className="text-sm font-medium text-[#38BDF8] tracking-wide">
+                Readymade Store
+              </p>
+            </div>
+          </Link>
           <p className="text-sm text-slate-300 leading-relaxed mb-5">
             शहडोल, MP में थोक रेडीमेड और होजरी व्यापार का भरोसेमंद नाम।
             Hosiery, Kolkata Readymade, Rainwear, Umbrella और अधिक।

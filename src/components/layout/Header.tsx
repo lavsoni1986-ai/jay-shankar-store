@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, MessageCircle } from "lucide-react";
@@ -44,15 +45,17 @@ export function Header() {
             {/* Logo */}
             <Link
               href="/"
-              className="flex flex-col leading-tight group"
+              className="flex items-center group py-1 shrink-0"
               aria-label="Jay Shankar Readymade Store — Home"
             >
-              <span className="text-lg font-bold text-[#0F2A5C] group-hover:text-[#0EA5E9] transition-colors tracking-tight">
-                Jay Shankar
-              </span>
-              <span className="text-xs font-medium text-[#0EA5E9] tracking-wide uppercase">
-                Readymade Store
-              </span>
+              <Image
+                src="/images/jay-shankar-js-logo.png"
+                alt="Jay Shankar Readymade Store"
+                width={990}
+                height={1024}
+                priority
+                className="h-10 sm:h-11 lg:h-12 w-auto object-contain transition-transform group-hover:scale-105 duration-200"
+              />
             </Link>
 
             {/* Desktop Navigation */}
