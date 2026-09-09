@@ -1,17 +1,45 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PwaRegister } from "@/components/pwa/PwaRegister";
 import { siteConfig } from "@/data/siteConfig";
+
+export const viewport: Viewport = {
+  themeColor: "#0F2A5C",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
+  applicationName: "Jay Shankar Readymade Store",
   title: {
     default: `${siteConfig.name} | थोक रेडीमेड और होजरी — शहडोल`,
     template: `%s | ${siteConfig.name}`,
   },
   description:
     "Jay Shankar Readymade Store — शहडोल, MP का अग्रणी थोक रेडीमेड और होजरी व्यापार केंद्र। Hosiery, Kolkata Readymade, Umbrella, Raincoat, Newar, Tripal, Jhola और अनेक उत्पादों में थोक सप्लाई। WhatsApp: 7000766562",
+  manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/icons/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [
+      { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Jay Shankar",
+  },
+  formatDetection: {
+    telephone: true,
+  },
   keywords: [
     "Jay Shankar Readymade Store",
     "Jay Shankar Store Shahdol",
@@ -111,6 +139,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col antialiased">
+        <PwaRegister />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
