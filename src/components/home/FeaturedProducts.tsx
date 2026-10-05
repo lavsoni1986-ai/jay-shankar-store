@@ -9,7 +9,7 @@ export async function FeaturedProducts() {
 
   return (
     <section
-      className="py-16 lg:py-20 bg-[#F8FAFC]"
+      className="py-16 lg:py-20 bg-white"
       aria-labelledby="featured-products-heading"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

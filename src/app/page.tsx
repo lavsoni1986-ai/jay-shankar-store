@@ -30,9 +30,9 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <FeaturedProducts />
       <CoreCategories />
       <BrandDealerships />
-      <FeaturedProducts />
       <WhyJayShankar />
       <WhatsAppCTA />
       <LocationSection />

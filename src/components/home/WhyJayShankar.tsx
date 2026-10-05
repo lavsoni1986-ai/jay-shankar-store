@@ -42,7 +42,7 @@ const reasons = [
 export function WhyJayShankar() {
   return (
     <section
-      className="py-16 lg:py-20 bg-white"
+      className="py-16 lg:py-20 bg-[#F8FAFC]"
       aria-labelledby="why-heading"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
