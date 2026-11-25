@@ -75,7 +75,7 @@ export default function PrivacyPolicyPage() {
       </section>
 
       {/* Main Content Area */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         {/* Core Transparency Highlight Card */}
         <div className="bg-white border border-[#E3DED6] rounded-2xl p-6 sm:p-8 shadow-xs mb-10">
           <div className="flex items-start gap-4">
@@ -463,7 +463,7 @@ export default function PrivacyPolicyPage() {
             </div>
           </section>
         </div>
-      </main>
+      </div>
 
       {/* Floating Sticky WhatsApp Pill */}
       <StickyWhatsApp />

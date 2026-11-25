@@ -23,7 +23,7 @@ export function BottomNav() {
     <>
       {/* Bottom spacer to prevent content from being covered by the fixed navigation on mobile */}
       <div
-        className="h-[calc(3.75rem+env(safe-area-inset-bottom,0px))] lg:hidden shrink-0 pointer-events-none"
+        className="h-[calc(3.8125rem+env(safe-area-inset-bottom,0px))] lg:hidden shrink-0 pointer-events-none"
         aria-hidden="true"
       />
 

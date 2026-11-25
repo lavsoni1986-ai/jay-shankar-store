@@ -115,7 +115,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
       </div>
 
       {/* Main Product Showcase Section */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-16">
           {/* Left Column: Interactive Product Image Gallery (5 cols desktop) */}
           <div className="lg:col-span-5 w-full">
@@ -307,7 +307,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
             <span>&larr; संपूर्ण थोक कैटलॉग पर वापस जाएं (Back to Catalogue)</span>
           </Link>
         </div>
-      </main>
+      </div>
 
       {/* Floating Desktop WhatsApp Button */}
       <StickyWhatsApp />
