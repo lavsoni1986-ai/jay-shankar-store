@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.bharatos.jayshankarstore",
+      "sha256_cert_fingerprints": [
+        "A8:EB:27:CD:D2:95:E5:AE:FF:44:D7:AB:82:2B:C6:A5:D0:0C:5A:A2:EF:09:D9:EA:D4:65:C0:E0:A3:E4:CF:16"
+      ]
+    }
+  }
+]

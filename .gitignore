@@ -43,3 +43,17 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# Android & keystore signing credentials (strictly local, never committed)
+*.keystore
+*.jks
+android-app/keystore/
+android-app/.gradle/
+android-app/build/
+android-app/app/build/
+android-app/local.properties
+signing.properties
+keystore.env
+*.apk
+*.aab
+*.idsig
