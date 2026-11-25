@@ -124,7 +124,7 @@ export default async function CategoryDetailPage({ params }: PageProps) {
       </section>
 
       {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         {/* Results Header */}
         <div className="flex items-center justify-between gap-4 mb-6 pb-3 border-b border-[#E3DED6]">
           <h2 className="text-lg sm:text-xl font-bold text-[#242426] font-display text-hindi">
@@ -205,7 +205,7 @@ export default async function CategoryDetailPage({ params }: PageProps) {
             </div>
           </section>
         )}
-      </main>
+      </div>
 
       <StickyWhatsApp />
     </div>

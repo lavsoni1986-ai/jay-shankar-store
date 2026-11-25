@@ -79,13 +79,13 @@ export default async function ProductsPage() {
       </div>
 
       {/* Main Catalogue Grid Section */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         <ProductGrid
           initialProducts={products}
           initialCategories={categories}
           initialBrands={brands}
         />
-      </main>
+      </div>
 
       {/* Floating Desktop WhatsApp Enquiry */}
       <StickyWhatsApp />

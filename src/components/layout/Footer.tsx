@@ -146,7 +146,7 @@ export function Footer() {
                   {siteConfig.address.street},
                 </p>
                 <p className="text-sm text-[#D8C9B7]">
-                  {siteConfig.address.city} ({siteConfig.address.state.substring(0, 2).toUpperCase()}) {siteConfig.address.pincode}
+                  {siteConfig.address.city} (MP) {siteConfig.address.pincode}
                 </p>
               </div>
             </div>

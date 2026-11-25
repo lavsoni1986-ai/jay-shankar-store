@@ -44,7 +44,7 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 pt-safe transition-all duration-300 ${
           scrolled
             ? "bg-white/95 backdrop-blur-md shadow-[0_4px_20px_rgba(36,36,38,0.06)] border-b border-[#E3DED6]"
             : "bg-white border-b border-[#E3DED6]"
@@ -209,7 +209,9 @@ export function Header() {
       {/* Header Height Spacer to prevent layout shift */}
       <div
         className={`shrink-0 transition-all duration-200 ${
-          scrolled ? "h-16 lg:h-18" : "h-16 lg:h-[6.375rem]"
+          scrolled
+            ? "h-[calc(4rem+env(safe-area-inset-top,0px))] lg:h-[calc(4.5rem+env(safe-area-inset-top,0px))]"
+            : "h-[calc(4rem+env(safe-area-inset-top,0px))] lg:h-[calc(6.375rem+env(safe-area-inset-top,0px))]"
         }`}
         aria-hidden="true"
       />
