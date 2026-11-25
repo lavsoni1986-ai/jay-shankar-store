@@ -8,52 +8,58 @@ export function LocationSection() {
 
   return (
     <section
-      className="py-16 lg:py-20 bg-[#F8FAFC]"
+      id="location"
+      className="py-14 sm:py-16 lg:py-20 bg-white scroll-mt-20 lg:scroll-mt-24"
       aria-labelledby="location-heading"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          {/* Text Content */}
+          {/* Left Column: Store Details & Actions */}
           <div>
-            <p className="text-sm font-semibold text-[#0EA5E9] uppercase tracking-widest mb-2">
-              हमारा स्थान
+            <p className="text-xs sm:text-sm font-bold text-[#B77B50] uppercase tracking-widest mb-2">
+              हमारा स्थान &bull; STORE LOCATION
             </p>
             <h2
               id="location-heading"
-              className="text-2xl sm:text-3xl font-bold text-[#0F2A5C] mb-4 leading-tight"
+              className="text-2xl sm:text-3xl font-bold text-[#242426] mb-3 leading-tight text-hindi font-display scroll-mt-28 lg:scroll-mt-32"
             >
-              हमें ढूंढें — शहडोल
+              प्रतिष्ठान पर पधारें — शहडोल (म.प्र.)
             </h2>
-            <div className="w-12 h-1 rounded-full bg-[#0EA5E9] mb-6" aria-hidden="true" />
+            <div className="w-12 h-1 rounded-full bg-[#B77B50] mb-6" aria-hidden="true" />
 
-            {/* Address */}
-            <div className="flex items-start gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-[#0F2A5C] flex items-center justify-center shrink-0 mt-0.5">
-                <MapPin size={18} className="text-white" aria-hidden="true" />
+            <p className="text-sm sm:text-base text-[#686469] mb-6 leading-relaxed text-hindi">
+              शहडोल के मुख्य व्यापारिक क्षेत्र में स्थित। यदि आप व्यक्तिगत रूप से आकर वैरायटी देखना चाहते हैं या 
+              थोक ऑर्डर देना चाहते हैं, तो हमारे प्रतिष्ठान पर आपका हार्दिक स्वागत है।
+            </p>
+
+            {/* Address Box */}
+            <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-[#F8F5F0] border border-[#E3DED6] mb-5">
+              <div className="w-11 h-11 rounded-xl bg-[#242426] flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                <MapPin size={20} className="text-[#B77B50]" aria-hidden="true" />
               </div>
               <div>
-                <p className="text-base font-bold text-[#0F2A5C] mb-1">
+                <p className="text-base font-bold text-[#242426] mb-1">
                   {siteConfig.name}
                 </p>
-                <address className="not-italic text-sm text-slate-600 leading-relaxed">
+                <address className="not-italic text-xs sm:text-sm text-[#686469] leading-relaxed">
                   {siteConfig.address.street},<br />
-                  {siteConfig.address.city}, {siteConfig.address.state} {siteConfig.address.pincode}
+                  {siteConfig.address.city}, {siteConfig.address.state} — {siteConfig.address.pincode}
                 </address>
               </div>
             </div>
 
-            {/* Contact */}
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-10 h-10 rounded-xl bg-[#25D366] flex items-center justify-center shrink-0">
-                <Phone size={16} className="text-white" aria-hidden="true" />
+            {/* Direct Contact Box */}
+            <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-[#F8F5F0] border border-[#E3DED6] mb-8">
+              <div className="w-11 h-11 rounded-xl bg-[#25D366] flex items-center justify-center shrink-0 shadow-xs">
+                <Phone size={18} className="text-white" aria-hidden="true" />
               </div>
-              <div>
-                <p className="text-xs text-slate-500 mb-0.5">
-                  {siteConfig.contact.contactPerson} — WhatsApp / Call
+              <div className="min-w-0 flex-1">
+                <p className="text-xs text-[#686469] mb-0.5">
+                  सीधा संपर्क: <strong className="text-[#242426]">{siteConfig.contact.contactPerson}</strong>
                 </p>
                 <a
                   href={`tel:+91${siteConfig.contact.whatsapp}`}
-                  className="text-base font-bold text-[#0F2A5C] hover:text-[#0EA5E9] transition-colors"
+                  className="text-base sm:text-lg font-bold text-[#242426] hover:text-[#B77B50] transition-colors"
                   aria-label={`Call ${siteConfig.contact.whatsappDisplay}`}
                 >
                   {siteConfig.contact.whatsappDisplay}
@@ -67,64 +73,79 @@ export function LocationSection() {
                 href={mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#0F2A5C] hover:bg-[#0EA5E9] text-white text-sm font-semibold rounded-xl transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-[#242426] hover:bg-[#39383B] text-white text-sm font-bold rounded-xl transition-all shadow-md active:scale-[0.98] border border-[#B77B50]/30"
                 aria-label="Google Maps पर दिशा-निर्देश देखें"
               >
                 <ExternalLink size={16} aria-hidden="true" />
-                Google Maps पर देखें
+                <span>Google Maps पर रास्ता देखें</span>
               </a>
               <a
                 href={getGeneralEnquiryUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#25D366] hover:bg-[#128C7E] text-white text-sm font-semibold rounded-xl transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-[#F3EFE8] hover:bg-[#EAE4DC] border border-[#D8C9B7] text-[#242426] text-sm font-bold rounded-xl transition-all"
                 aria-label="WhatsApp पर संपर्क करें"
               >
-                <MessageCircle size={16} aria-hidden="true" />
-                WhatsApp पर संपर्क करें
+                <MessageCircle size={16} className="text-[#25D366]" aria-hidden="true" />
+                <span>WhatsApp पर संपर्क</span>
               </a>
             </div>
           </div>
 
-          {/* Map placeholder / info card */}
+          {/* Right Column: Visual Map Card */}
           <div className="relative">
-            <div className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(15,42,92,0.08)]">
-              {/* Map visual placeholder */}
+            <div className="bg-white border border-[#D8C9B7]/80 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(36,36,38,0.06)] hover:border-[#B77B50] transition-all duration-300">
+              {/* Map visual card header */}
               <div
-                className="h-56 bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col items-center justify-center relative"
+                className="h-60 bg-gradient-to-br from-[#242426] via-[#333235] to-[#1C1C1E] text-white flex flex-col items-center justify-center relative p-6 text-center"
                 aria-hidden="true"
               >
-                <div className="absolute inset-0 opacity-20"
+                <div
+                  className="absolute inset-0 opacity-[0.05]"
                   style={{
-                    backgroundImage: "linear-gradient(rgba(15,42,92,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(15,42,92,0.3) 1px, transparent 1px)",
-                    backgroundSize: "30px 30px",
+                    backgroundImage:
+                      "linear-gradient(rgba(183,123,80,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(183,123,80,0.6) 1px, transparent 1px)",
+                    backgroundSize: "28px 28px",
                   }}
                 />
-                <div className="relative z-10 text-center">
-                  <div className="w-12 h-12 rounded-full bg-[#0F2A5C] flex items-center justify-center mx-auto mb-2 shadow-lg">
-                    <MapPin size={22} className="text-white" />
+                <div className="relative z-10">
+                  <div className="w-14 h-14 rounded-2xl bg-[#B77B50] flex items-center justify-center mx-auto mb-3 shadow-lg text-white">
+                    <MapPin size={26} />
                   </div>
-                  <p className="text-sm font-semibold text-[#0F2A5C]">Jay Shankar Readymade Store</p>
-                  <p className="text-xs text-slate-500">Shahdol, Madhya Pradesh</p>
+                  <p className="text-base font-bold text-white tracking-wide font-display">
+                    Jay Shankar Readymade Store
+                  </p>
+                  <p className="text-xs text-[#D8C9B7] mt-1">
+                    Shahdol, Madhya Pradesh &bull; 484001
+                  </p>
+                  <span className="inline-block mt-3 text-[10px] font-bold text-[#D4A37F] bg-white/10 px-2.5 py-1 rounded-full uppercase tracking-widest border border-white/15">
+                    थोक वस्त्र प्रतिष्ठान
+                  </span>
                 </div>
               </div>
 
-              <div className="p-5">
-                <h3 className="text-sm font-bold text-[#0F2A5C] mb-1">
-                  Itwani Mohalli, Behind Aganwadi
-                </h3>
-                <p className="text-xs text-slate-500 mb-4">
-                  Ward No. 10, Shahdol (MP) 484001
+              {/* Card Footer */}
+              <div className="p-5 sm:p-6 bg-white border-t border-[#E3DED6]">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-sm sm:text-base font-bold text-[#242426]">
+                    इटवारी मोहल्ला, आंगनवाड़ी के पीछे
+                  </h3>
+                  <span className="text-[11px] font-bold text-[#B77B50] bg-[#F8F5F0] px-2 py-0.5 rounded border border-[#D8C9B7]">
+                    वार्ड नं. 10
+                  </span>
+                </div>
+                <p className="text-xs text-[#686469] mb-5 leading-relaxed">
+                  शहडोल (म.प्र.) 484001 &bull; रेलवे स्टेशन व मुख्य बाजार से सुगम मार्ग
                 </p>
                 <a
                   href={mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm font-semibold text-[#0EA5E9] hover:text-[#0284C7] transition-colors"
+                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#242426] hover:text-[#B77B50] transition-colors group"
                   aria-label="Get Directions on Google Maps"
                 >
-                  <ExternalLink size={14} aria-hidden="true" />
-                  दिशा-निर्देश प्राप्त करें (Google Maps)
+                  <span>Google Maps पर लोकेशन खोलें</span>
+                  <ExternalLink size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-[#B77B50]" aria-hidden="true" />
                 </a>
               </div>
             </div>

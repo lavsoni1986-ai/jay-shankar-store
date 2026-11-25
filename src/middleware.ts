@@ -6,15 +6,14 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
+import { getJwtSecretKey } from "@/lib/auth-secret";
 
 const COOKIE_NAME = "js_admin_session";
-const JWT_SECRET = process.env.AUTH_SECRET || "jay-shankar-dev-auth-secret-change-in-production-min32chars";
-const key = new TextEncoder().encode(JWT_SECRET);
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Only intercept /admin routes
+  // Only intercept /admin routes (public website routes pass through immediately)
   if (!pathname.startsWith("/admin")) {
     return NextResponse.next();
   }
@@ -22,10 +21,13 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get(COOKIE_NAME)?.value;
   let isAuthenticated = false;
 
-  if (token) {
+  const key = getJwtSecretKey();
+  if (token && key) {
     try {
-      await jwtVerify(token, key, { algorithms: ["HS256"] });
-      isAuthenticated = true;
+      const { payload } = await jwtVerify(token, key, { algorithms: ["HS256"] });
+      if (typeof payload.userId === "string" && payload.userId.length > 0) {
+        isAuthenticated = true;
+      }
     } catch {
       isAuthenticated = false;
     }

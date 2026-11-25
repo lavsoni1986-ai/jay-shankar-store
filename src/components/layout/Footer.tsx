@@ -19,7 +19,7 @@ export function Footer() {
 
   return (
     <footer
-      className="bg-[#081A3E] text-white"
+      className="bg-[#1C1C1E] text-white border-t border-[#B77B50]/20"
       role="contentinfo"
       aria-label="Site footer"
     >
@@ -40,41 +40,41 @@ export function Footer() {
               className="h-12 w-auto object-contain transition-transform group-hover:scale-105 duration-200"
             />
             <div>
-              <h2 className="text-xl font-bold text-white leading-tight group-hover:text-[#38BDF8] transition-colors">
+              <h2 className="text-xl font-bold text-white leading-tight group-hover:text-[#D4A37F] transition-colors font-display">
                 Jay Shankar
               </h2>
-              <p className="text-sm font-medium text-[#38BDF8] tracking-wide">
+              <p className="text-xs font-semibold text-[#B77B50] uppercase tracking-wider">
                 Readymade Store
               </p>
             </div>
           </Link>
-          <p className="text-sm text-slate-300 leading-relaxed mb-5">
-            शहडोल, MP में थोक रेडीमेड और होजरी व्यापार का भरोसेमंद नाम।
+          <p className="text-sm text-[#D8C9B7] leading-relaxed mb-5 text-hindi">
+            शहडोल, MP में थोक रेडीमेड और होजरी व्यापार का प्रतिष्ठित नाम।
             Hosiery, Kolkata Readymade, Rainwear, Umbrella और अधिक।
           </p>
           <a
             href={getGeneralEnquiryUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#25D366] hover:bg-[#128C7E] text-white text-sm font-semibold rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#25D366] hover:bg-[#128C7E] text-white text-sm font-semibold rounded-xl transition-all shadow-md active:scale-95"
             aria-label="WhatsApp पर थोक पूछताछ करें"
           >
-            <MessageCircle size={15} aria-hidden="true" />
-            थोक पूछताछ करें
+            <MessageCircle size={16} aria-hidden="true" />
+            <span>थोक पूछताछ करें</span>
           </a>
         </div>
 
         {/* Core Categories */}
         <div>
-          <h3 className="text-sm font-semibold text-slate-200 uppercase tracking-wider mb-4">
+          <h3 className="text-xs font-bold text-[#B77B50] uppercase tracking-widest mb-4">
             मुख्य श्रेणियाँ
           </h3>
-          <ul className="space-y-2" role="list">
+          <ul className="space-y-2.5" role="list">
             {coreCategories.map((cat) => (
               <li key={cat.slug}>
                 <Link
                   href={`/categories/${cat.slug}`}
-                  className="text-sm text-slate-400 hover:text-[#38BDF8] transition-colors"
+                  className="text-sm text-[#D8C9B7] hover:text-white transition-colors text-hindi"
                 >
                   {cat.nameHindi}
                 </Link>
@@ -85,39 +85,44 @@ export function Footer() {
 
         {/* Brands */}
         <div>
-          <h3 className="text-sm font-semibold text-slate-200 uppercase tracking-wider mb-4">
+          <h3 className="text-xs font-bold text-[#B77B50] uppercase tracking-widest mb-4">
             हमारे प्रमुख ब्रांड
           </h3>
-          <ul className="space-y-2" role="list">
+          <ul className="space-y-2.5" role="list">
             {brands.map((brand) => (
               <li key={brand.slug}>
                 <Link
                   href={`/brands/${brand.slug}`}
-                  className="text-sm text-slate-400 hover:text-[#38BDF8] transition-colors"
+                  className="text-sm text-[#D8C9B7] hover:text-white transition-colors"
                 >
                   {brand.name}
                 </Link>
               </li>
             ))}
           </ul>
-          <div className="mt-5">
-            <h3 className="text-sm font-semibold text-slate-200 uppercase tracking-wider mb-3">
+          <div className="mt-6">
+            <h3 className="text-xs font-bold text-[#B77B50] uppercase tracking-widest mb-3">
               त्वरित लिंक
             </h3>
             <ul className="space-y-2" role="list">
               <li>
-                <Link href="/products" className="text-sm text-slate-400 hover:text-[#38BDF8] transition-colors">
+                <Link href="/products" className="text-sm text-[#D8C9B7] hover:text-white transition-colors">
                   कैटलॉग देखें
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-sm text-slate-400 hover:text-[#38BDF8] transition-colors">
+                <Link href="/about" className="text-sm text-[#D8C9B7] hover:text-white transition-colors">
                   हमारे बारे में
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-sm text-slate-400 hover:text-[#38BDF8] transition-colors">
+                <Link href="/contact" className="text-sm text-[#D8C9B7] hover:text-white transition-colors">
                   संपर्क करें
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy" className="text-sm text-[#D8C9B7] hover:text-white transition-colors">
+                  गोपनीयता नीति
                 </Link>
               </li>
             </ul>
@@ -126,21 +131,21 @@ export function Footer() {
 
         {/* Contact */}
         <div>
-          <h3 className="text-sm font-semibold text-slate-200 uppercase tracking-wider mb-4">
+          <h3 className="text-xs font-bold text-[#B77B50] uppercase tracking-widest mb-4">
             संपर्क
           </h3>
           <div className="space-y-4">
             <div className="flex items-start gap-3">
               <MapPin
                 size={16}
-                className="text-[#38BDF8] mt-0.5 shrink-0"
+                className="text-[#B77B50] mt-0.5 shrink-0"
                 aria-hidden="true"
               />
               <div>
-                <p className="text-sm text-slate-300 leading-relaxed">
+                <p className="text-sm text-[#D8C9B7] leading-relaxed">
                   {siteConfig.address.street},
                 </p>
-                <p className="text-sm text-slate-300">
+                <p className="text-sm text-[#D8C9B7]">
                   {siteConfig.address.city} ({siteConfig.address.state.substring(0, 2).toUpperCase()}) {siteConfig.address.pincode}
                 </p>
               </div>
@@ -148,16 +153,16 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <Phone
                 size={16}
-                className="text-[#38BDF8] shrink-0"
+                className="text-[#B77B50] shrink-0"
                 aria-hidden="true"
               />
               <div>
-                <p className="text-xs text-slate-500 mb-0.5">
+                <p className="text-xs text-[#686469] mb-0.5">
                   {siteConfig.contact.contactPerson} (WhatsApp)
                 </p>
                 <a
                   href={`tel:+91${siteConfig.contact.whatsapp}`}
-                  className="text-sm font-semibold text-white hover:text-[#38BDF8] transition-colors"
+                  className="text-sm font-semibold text-white hover:text-[#D4A37F] transition-colors"
                 >
                   {siteConfig.contact.whatsappDisplay}
                 </a>
@@ -170,19 +175,28 @@ export function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-slate-500 text-center sm:text-left">
-            © {currentYear} {siteConfig.name}. All rights reserved.
-          </p>
-          <p className="text-xs text-slate-600 text-center sm:text-right">
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
+            <p className="text-xs text-[#686469]">
+              © {currentYear} {siteConfig.name}. All rights reserved.
+            </p>
+            <span className="hidden sm:inline text-white/20" aria-hidden="true">&bull;</span>
+            <Link
+              href="/privacy"
+              className="text-xs text-[#686469] hover:text-[#D8C9B7] transition-colors underline underline-offset-2"
+            >
+              Privacy Policy (गोपनीयता नीति)
+            </Link>
+          </div>
+          <p className="text-xs text-[#686469] text-center sm:text-right">
             Wholesale Readymade & Hosiery — Shahdol, Madhya Pradesh 484001
           </p>
         </div>
         {/* Developer Attribution */}
-        <div className="border-t border-white/5 py-3.5 bg-black/15 text-center">
-          <p className="text-xs font-medium text-slate-400">
-            Designed & Developed by <span className="text-slate-200 font-semibold">BharatOS</span>
+        <div className="border-t border-white/5 py-3.5 bg-black/20 text-center">
+          <p className="text-xs font-medium text-[#D8C9B7]/80">
+            Designed & Developed by <span className="text-white font-semibold">BharatOS</span>
           </p>
-          <p className="text-[11px] text-slate-500 tracking-wide mt-0.5">
+          <p className="text-[11px] text-[#686469] tracking-wide mt-0.5">
             AI • Web • Digital Solutions
           </p>
         </div>

@@ -30,13 +30,19 @@ function cleanEnvUrl(val: string | undefined): string {
  * Get active connection string from DATABASE_URL or DIRECT_URL
  */
 function getResolvedConnectionString(): string {
-  const dbUrl = cleanEnvUrl(process.env.DATABASE_URL);
-  if (dbUrl) return dbUrl;
+  let url = cleanEnvUrl(process.env.DATABASE_URL) || cleanEnvUrl(process.env.DIRECT_URL);
+  if (!url) {
+    return "postgresql://postgres:postgres@localhost:5432/jayshankar";
+  }
 
-  const directUrl = cleanEnvUrl(process.env.DIRECT_URL);
-  if (directUrl) return directUrl;
+  // Explicitly upgrade legacy 'sslmode=require' to 'sslmode=verify-full' to prevent
+  // pg v8.23+ SECURITY WARNING deprecation noise. Neon PostgreSQL natively supports
+  // verify-full with valid public CA certificates.
+  if (url.includes("sslmode=require") && !url.includes("uselibpqcompat")) {
+    url = url.replace("sslmode=require", "sslmode=verify-full");
+  }
 
-  return "postgresql://postgres:postgres@localhost:5432/jayshankar";
+  return url;
 }
 
 const connectionString = getResolvedConnectionString();
@@ -50,7 +56,9 @@ export const prisma =
     adapter,
     log:
       process.env.NODE_ENV === "development"
-        ? ["query", "error", "warn"]
+        ? process.env.PRISMA_LOG_QUERIES === "true"
+          ? ["query", "error", "warn"]
+          : ["error", "warn"]
         : ["error"],
   });
 

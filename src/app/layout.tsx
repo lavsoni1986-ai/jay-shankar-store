@@ -1,12 +1,44 @@
 import type { Metadata, Viewport } from "next";
+import { Tiro_Devanagari_Hindi, Hind, Cormorant_Garamond, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { BottomNav } from "@/components/layout/BottomNav";
+import { GlobalSearchModal } from "@/components/layout/GlobalSearchModal";
+import { SearchProvider } from "@/context/SearchContext";
 import { PwaRegister } from "@/components/pwa/PwaRegister";
 import { siteConfig } from "@/data/siteConfig";
 
+const tiroDevanagariHindi = Tiro_Devanagari_Hindi({
+  subsets: ["devanagari", "latin"],
+  weight: "400",
+  variable: "--font-tiro-hindi",
+  display: "swap",
+});
+
+const hind = Hind({
+  subsets: ["devanagari", "latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-hind",
+  display: "swap",
+});
+
+const cormorantGaramond = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-cormorant",
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-dm-sans",
+  display: "swap",
+});
+
 export const viewport: Viewport = {
-  themeColor: "#0F2A5C",
+  themeColor: "#242426",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -14,7 +46,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  applicationName: "Jay Shankar Readymade Store",
+  applicationName: "Jay Shankar Store",
   title: {
     default: `${siteConfig.name} | थोक रेडीमेड और होजरी — शहडोल`,
     template: `%s | ${siteConfig.name}`,
@@ -123,7 +155,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="hi" className="h-full">
+    <html
+      lang="hi"
+      className={`${dmSans.variable} ${hind.variable} ${cormorantGaramond.variable} ${tiroDevanagariHindi.variable} h-full`}
+    >
       <head>
         <script
           type="application/ld+json"
@@ -139,10 +174,14 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col antialiased">
-        <PwaRegister />
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <SearchProvider>
+          <PwaRegister />
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <BottomNav />
+          <GlobalSearchModal />
+        </SearchProvider>
       </body>
     </html>
   );

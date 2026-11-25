@@ -22,20 +22,20 @@ export function SectionHeader({
   return (
     <div
       className={cn(
-        "mb-10",
+        "mb-8 sm:mb-10",
         align === "center" ? "text-center" : "text-left",
         className
       )}
     >
       {titleHindi && (
-        <p className="text-sm font-semibold text-[#0EA5E9] uppercase tracking-widest mb-2 text-hindi">
+        <p className="text-xs sm:text-sm font-bold text-[#B77B50] uppercase tracking-widest mb-1.5 text-hindi">
           {titleHindi}
         </p>
       )}
       <h2
         id={id}
         className={cn(
-          "text-2xl sm:text-3xl font-bold text-[#0F2A5C] leading-tight",
+          "text-2xl sm:text-3xl lg:text-4xl font-bold text-[#242426] leading-tight tracking-tight font-display scroll-mt-28 lg:scroll-mt-32",
           align === "center" && "mx-auto"
         )}
       >
@@ -44,7 +44,7 @@ export function SectionHeader({
       {accentLine && (
         <div
           className={cn(
-            "mt-3 h-1 w-12 rounded-full bg-[#0EA5E9]",
+            "mt-2.5 h-1 w-12 rounded-full bg-[#B77B50]",
             align === "center" ? "mx-auto" : ""
           )}
           aria-hidden="true"
@@ -53,7 +53,7 @@ export function SectionHeader({
       {subtitle && (
         <p
           className={cn(
-            "mt-4 text-base text-slate-600 max-w-2xl leading-relaxed",
+            "mt-3 text-sm sm:text-base text-[#686469] max-w-2xl leading-relaxed text-hindi",
             align === "center" ? "mx-auto" : ""
           )}
         >

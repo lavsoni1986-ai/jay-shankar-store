@@ -26,34 +26,41 @@ if (typeof window !== "undefined") {
 
 export function usePwaInstall() {
   const [canInstall, setCanInstall] = useState<boolean>(false);
-  const [isInstalled, setIsInstalled] = useState<boolean>(false);
+  const [isInstalled, setIsInstalled] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return (
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as unknown as { standalone?: boolean }).standalone === true
+    );
+  });
 
   useEffect(() => {
-    const isStandalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      (window.navigator as unknown as { standalone?: boolean }).standalone === true;
-
-    setIsInstalled(isStandalone);
-
-    if (isStandalone) {
-      setCanInstall(false);
+    if (isInstalled) {
       return;
     }
 
     if (globalDeferredPrompt) {
-      setCanInstall(true);
+      // Defer state update outside synchronous effect mount
+      queueMicrotask(() => setCanInstall(true));
     }
 
     const onPromptChange = (prompt: BeforeInstallPromptEvent | null) => {
       setCanInstall(!!prompt);
     };
 
+    const onAppInstalled = () => {
+      setIsInstalled(true);
+      setCanInstall(false);
+    };
+
     promptListeners.push(onPromptChange);
+    window.addEventListener("appinstalled", onAppInstalled);
 
     return () => {
       promptListeners = promptListeners.filter((fn) => fn !== onPromptChange);
+      window.removeEventListener("appinstalled", onAppInstalled);
     };
-  }, []);
+  }, [isInstalled]);
 
   const installApp = async (): Promise<boolean> => {
     if (!globalDeferredPrompt) {

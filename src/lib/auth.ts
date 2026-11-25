@@ -7,10 +7,11 @@ import bcrypt from "bcryptjs";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { prisma, isDatabaseConfigured } from "./prisma";
+import { getJwtSecretKey } from "./auth-secret";
+
+export { getJwtSecretKey } from "./auth-secret";
 
 const COOKIE_NAME = "js_admin_session";
-const JWT_SECRET = process.env.AUTH_SECRET || "jay-shankar-dev-auth-secret-change-in-production-min32chars";
-const key = new TextEncoder().encode(JWT_SECRET);
 
 export interface AdminSessionPayload {
   userId: string;
@@ -70,6 +71,13 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
  * Create a signed JWT session token
  */
 export async function createSessionToken(user: { id: string; email: string; name: string; role: string }): Promise<string> {
+  const key = getJwtSecretKey();
+  if (!key) {
+    throw new Error(
+      "Authentication failure: secure AUTH_SECRET is not configured or does not meet minimum 32-character requirement."
+    );
+  }
+
   const expiresAt = Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60; // 7 days
   return new SignJWT({
     userId: user.id,
@@ -87,16 +95,26 @@ export async function createSessionToken(user: { id: string; email: string; name
  * Verify and decode a JWT session token
  */
 export async function verifySessionToken(token: string): Promise<AdminSessionPayload | null> {
+  const key = getJwtSecretKey();
+  if (!key) {
+    return null;
+  }
+
   try {
     const { payload } = await jwtVerify(token, key, {
       algorithms: ["HS256"],
     });
+
+    if (!payload.userId || typeof payload.userId !== "string") {
+      return null;
+    }
+
     return {
-      userId: payload.userId as string,
-      email: payload.email as string,
-      name: payload.name as string,
-      role: payload.role as string,
-      expiresAt: payload.exp as number,
+      userId: payload.userId,
+      email: (payload.email as string) || "",
+      name: (payload.name as string) || "",
+      role: (payload.role as string) || "",
+      expiresAt: (payload.exp as number) || 0,
     };
   } catch {
     return null;
